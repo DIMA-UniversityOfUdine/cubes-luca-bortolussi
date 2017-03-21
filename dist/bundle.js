@@ -63,23 +63,23 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-class Head {
-    constructor() {
-        this.geometry = new THREE.BoxGeometry(5,5,5);
-        this.material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
+class Body {
+    constructor(hex, ...[h, w ,d]) {
+        this.geometry = new THREE.BoxGeometry(h, w, d);
+        this.material = new THREE.MeshBasicMaterial( { color: "0x" + hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
+    position(x, y, z) {
+        this.cube.position.set(x ,y, z);
+    }
 }
-
-/* harmony default export */ __webpack_exports__["a"] = Head;
 
 
 /***/ }),
@@ -87,8 +87,31 @@ class Head {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Head {
+    constructor(hex, ...dimension) {
+        this.geometry = new THREE.BoxGeometry(dimension);
+        this.material = new THREE.MeshBasicMaterial( { color: "0x" + hex } );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+    }
+
+    position(x, y, z) {
+        this.cube.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Head;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Head_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Head__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Body__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Body___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__model_Body__);
+
 
 
 var scene, camera, renderer, controls, stats;
@@ -102,14 +125,20 @@ function Start() {
     renderer.setClearColor( 0xf0f0f0 );
     document.body.appendChild( renderer.domElement );
 
-    camera.position.set(3,4,6);
+    camera.position.set(0, 0, 10);
     camera.lookAt( new THREE.Vector3(0,0,0));
 
-    var geometry = new THREE.BoxGeometry(1,1,1);
-    var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
-    var cube = new THREE.Mesh( geometry, material );
+    var bodyColor = 'dbd4b7';
 
-    var head = new __WEBPACK_IMPORTED_MODULE_0__model_Head_js__["a" /* default */]();
+    /* ---- HEAD ---*/
+    var head = new __WEBPACK_IMPORTED_MODULE_0__model_Head__["a" /* default */](bodyColor , 5, 9, 8);
+    head.position(2, 7, 0);
+
+    /*---BODY---*/
+    var body = new __WEBPACK_IMPORTED_MODULE_1__model_Body___default.a(bodyColor , 14, 7, 8);
+    body.position(0, 0, 0);
+
+    /*---LEGS---*/
 
     scene.add( head.cube );
 

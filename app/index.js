@@ -1,4 +1,5 @@
-import Head from './model/Head.js'
+import Head from './model/Head';
+import Body from './model/Body';
 
 var scene, camera, renderer, controls, stats;
 
@@ -11,14 +12,20 @@ function Start() {
     renderer.setClearColor( 0xf0f0f0 );
     document.body.appendChild( renderer.domElement );
 
-    camera.position.set(3,4,6);
+    camera.position.set(0, 0, 10);
     camera.lookAt( new THREE.Vector3(0,0,0));
 
-    var geometry = new THREE.BoxGeometry(1,1,1);
-    var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
-    var cube = new THREE.Mesh( geometry, material );
+    var bodyColor = 'dbd4b7';
 
-    var head = new Head();
+    /* ---- HEAD ---*/
+    var head = new Head(bodyColor , 5, 9, 8);
+    head.position(2, 7, 0);
+
+    /*---BODY---*/
+    var body = new Body(bodyColor , 14, 7, 8);
+    body.position(0, 0, 0);
+
+    /*---LEGS---*/
 
     scene.add( head.cube );
 
