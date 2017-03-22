@@ -1,22 +1,44 @@
 class Mouth {
-    constructor() {
-        this.mouth = new THREE.Object3D();
+    constructor(hex) {
         this.material = new THREE.MeshBasicMaterial( { color: hex } );
     }
 
-    addVertices() {
-        // front
-        this.mouth.vertices.push( new THREE.Vector3(-3, 3, 3));
-        this.mouth.vertices.push( new THREE.Vector3(-3, -3, 3));
-        this.mouth.vertices.push( new THREE.Vector3(1, -3, 3));
-        this.mouth.vertices.push( new THREE.Vector3(1, -1, 3));
-        this.mouth.vertices.push( new THREE.Vector3(-1, -1, 3));
-        this.mouth.vertices.push( new THREE.Vector3(-1, 0, 3));
-        this.mouth.vertices.push( new THREE.Vector3(3, 0, 3));
-        this.mouth.vertices.push( new THREE.Vector3(3, 3, 3));
+    drawUpper() {
+        this.upper = new THREE.BoxGeometry(6, 3, 6);
+        this.upperMesh = new THREE.Mesh(this.upper);
+        this.upperMesh.position.set(0, 1.5, 0);
     }
 
-    addFaces() {
-        this.mouth.faces.push(new THREE.Face3(4, 0, 1));
+    drawMiddle() {
+        this.middle = new THREE.BoxGeometry(2, 1, 6);
+        this.middleMesh = new THREE.Mesh(this.middle);
+        this.middleMesh.position.set(-2, -0.5, 0);
+    }
+
+    drawBottom() {
+        this.bottom = new THREE.BoxGeometry(4, 2, 6);
+        this.bottomMesh = new THREE.Mesh(this.bottom);
+        this.bottomMesh.position.set(-1, -2, 0);
+    }
+
+    drawMouth() {
+        this.drawUpper();
+        this.drawMiddle();
+        this.drawBottom();
+        this.mouthGeometry = new THREE.Geometry();
+        this.upperMesh.updateMatrix();
+        this.middleMesh.updateMatrix();
+        this.bottomMesh.updateMatrix();
+        this.mouthGeometry.merge(this.upperMesh.geometry,  this.upperMesh.matrix);
+        this.mouthGeometry.merge(this.middleMesh.geometry, this.middleMesh.matrix);
+        this.mouthGeometry.merge(this.bottomMesh.geometry, this.bottomMesh.matrix);
+
+        this.mouth = new THREE.Mesh(this.mouthGeometry, this.material);
+    }
+
+    position(x, y, z) {
+        this.mouth.position.set(x ,y, z);
     }
 }
+
+export default Mouth;

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,9 +110,62 @@ class Head {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Mouth {
+    constructor(hex) {
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+    }
+
+    drawUpper() {
+        this.upper = new THREE.BoxGeometry(6, 3, 6);
+        this.upperMesh = new THREE.Mesh(this.upper);
+        this.upperMesh.position.set(0, 1.5, 0);
+    }
+
+    drawMiddle() {
+        this.middle = new THREE.BoxGeometry(2, 1, 6);
+        this.middleMesh = new THREE.Mesh(this.middle);
+        this.middleMesh.position.set(-2, -0.5, 0);
+    }
+
+    drawBottom() {
+        this.bottom = new THREE.BoxGeometry(4, 2, 6);
+        this.bottomMesh = new THREE.Mesh(this.bottom);
+        this.bottomMesh.position.set(-1, -2, 0);
+    }
+
+    drawMouth() {
+        this.drawUpper();
+        this.drawMiddle();
+        this.drawBottom();
+        this.mouthGeometry = new THREE.Geometry();
+        this.upperMesh.updateMatrix();
+        this.middleMesh.updateMatrix();
+        this.bottomMesh.updateMatrix();
+        this.mouthGeometry.merge(this.upperMesh.geometry,  this.upperMesh.matrix);
+        this.mouthGeometry.merge(this.middleMesh.geometry, this.middleMesh.matrix);
+        this.mouthGeometry.merge(this.bottomMesh.geometry, this.bottomMesh.matrix);
+
+        this.mouth = new THREE.Mesh(this.mouthGeometry, this.material);
+    }
+
+    position(x, y, z) {
+        this.mouth.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Mouth;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Head__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Body__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Body__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(2);
+
 
 
 
@@ -135,17 +188,21 @@ function Start() {
     var bodyColor = '#eae8d6';
     var beje = '#dbd4b7';
 
-    /* ---- HEAD ---*/
-    var head = new __WEBPACK_IMPORTED_MODULE_0__model_Head__["a" /* default */](bodyColor , 5, 9, 8);
-    head.position(4.5, 7, 0);
-
     /*---BODY---*/
-    var body = new __WEBPACK_IMPORTED_MODULE_1__model_Body__["a" /* default */](bodyColor , 14, 7, 8);
+    var body = new __WEBPACK_IMPORTED_MODULE_0__model_Body__["a" /* default */](bodyColor , 14, 7, 8);
     body.position(0, 0, 0);
 
-    /*---LEGS---*/
+    /* ---- HEAD ---*/
+    var head = new __WEBPACK_IMPORTED_MODULE_1__model_Head__["a" /* default */](bodyColor , 5, 9, 8);
+    head.position(4.5, 7, 0);
 
-    scene.add( head.cube, body.cube );
+    /*---MOUTH---*/
+    var mouth = new __WEBPACK_IMPORTED_MODULE_2__model_Mouth__["a" /* default */](beje);
+    mouth.drawMouth();
+    mouth.position(10, 8, 0);
+
+
+    scene.add( head.cube, body.cube, mouth.mouth);
 
     stats = new Stats();
     stats.domElement.style.position = 'absolute';

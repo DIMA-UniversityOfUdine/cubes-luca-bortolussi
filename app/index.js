@@ -1,5 +1,6 @@
-import Head from './model/Head';
 import Body from './model/Body';
+import Head from './model/Head';
+import Mouth from './model/Mouth'
 
 var scene, camera, renderer, controls, stats;
 
@@ -20,17 +21,21 @@ function Start() {
     var bodyColor = '#eae8d6';
     var beje = '#dbd4b7';
 
-    /* ---- HEAD ---*/
-    var head = new Head(bodyColor , 5, 9, 8);
-    head.position(4.5, 7, 0);
-
     /*---BODY---*/
     var body = new Body(bodyColor , 14, 7, 8);
     body.position(0, 0, 0);
 
-    /*---LEGS---*/
+    /* ---- HEAD ---*/
+    var head = new Head(bodyColor , 5, 9, 8);
+    head.position(4.5, 7, 0);
 
-    scene.add( head.cube, body.cube );
+    /*---MOUTH---*/
+    var mouth = new Mouth(beje);
+    mouth.drawMouth();
+    mouth.position(10, 8, 0);
+
+
+    scene.add( head.cube, body.cube, mouth.mouth);
 
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
