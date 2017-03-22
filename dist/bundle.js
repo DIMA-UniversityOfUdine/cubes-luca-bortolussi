@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,6 +90,58 @@ class Body {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Ear {
+    constructor(hex, ...[h, w, d]) {
+        this.geometry = new THREE.BoxGeometry(h, w, d);
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+    }
+
+    position(x, y, z) {
+        this.cube.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Ear;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Eye {
+    constructor(irisrHex, pupilHex, ...[h, w, d]) {
+        this.drawIris(irisrHex, h, w, d);
+        this.drawPupil(pupilHex, h, w, d);
+    }
+
+    drawIris(irisrHex, h, w, d) {
+        this.irisMaterial = new THREE.MeshBasicMaterial( { color: irisrHex } );
+        this.irisGeometry = new THREE.BoxGeometry(h, w, d);
+        this.iris = new THREE.Mesh( this.irisGeometry, this.irisMaterial );
+    }
+
+    drawPupil(pupilHex, h, w, d) {
+        this.pupilMaterial = new THREE.MeshBasicMaterial( { color: pupilHex } );
+        this.pupilGeometry = new THREE.BoxGeometry(h-2, w-2, d);
+        this.pupil = new THREE.Mesh( this.pupilGeometry, this.pupilMaterial );
+    }
+
+    position(x, y, z, o) {
+        this.iris.position.set(x ,y, z);
+        this.pupil.position.set(x ,y, z + o);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Eye;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 class Head {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
@@ -106,7 +158,70 @@ class Head {
 
 
 /***/ }),
-/* 2 */
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Horn {
+    constructor(hex, ...[h, w, d]) {
+        this.geometry = new THREE.BoxGeometry(h, w, d);
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+    }
+
+    position(x, y, z) {
+        this.cube.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Horn;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Leg {
+    constructor(topHex, midHex, botHex, ...[h, w, d]) {
+        this.drawTop(topHex, h, w, d);
+        this.drawMid(midHex, w);
+        this.drawBot(botHex, w);
+    }
+
+    drawTop(topHex, h, w, d) {
+        this.topMaterial = new THREE.MeshBasicMaterial( { color: topHex } );
+        this.topGeometry = new THREE.BoxGeometry(h, w, d);
+        this.top = new THREE.Mesh( this.topGeometry, this.topMaterial );
+        this.top.position.set(0, 0, 0);
+    }
+
+    drawMid(midHex, w) {
+        this.midMaterial = new THREE.MeshBasicMaterial( { color: midHex } );
+        this.midGeometry = new THREE.BoxGeometry(2, 2, 2);
+        this.mid = new THREE.Mesh( this.midGeometry, this.midMaterial );
+        this.mid.position.set(0, -w, 0);
+    }
+
+    drawBot(botHex, w) {
+        this.botMaterial = new THREE.MeshBasicMaterial( { color: botHex } );
+        this.botGeometry = new THREE.BoxGeometry(2, 2, 2);
+        this.bot = new THREE.Mesh( this.botGeometry, this.botMaterial );
+        this.mid.position.set(0, -w - 1, 0);
+    }
+
+    position(x, y, z) {
+        this.top.position.set(x, y, z);
+        this.mid.position.set(x, y -3, z);
+        this.bot.position.set(x, y -5, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Leg;
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -133,27 +248,17 @@ class Mouth {
         this.bottomMesh.position.set(-1, -2, 0);
     }
 
-    drawTeeth() {
-        this.teeth =  new THREE.BoxGeometry(1, 1, 6);
-        this.teethMaterial = new THREE.MeshBasicMaterial( { color: '#fefefd' } );
-        this.teethMesh = new THREE.Mesh(this.teeth, this.teethMaterial);
-        this.teethMesh.position.set(1, -0.5, 0);
-    }
-
     drawMouth() {
         this.drawUpper();
         this.drawMiddle();
         this.drawBottom();
-        this.drawTeeth();
         this.mouthGeometry = new THREE.Geometry();
         this.upperMesh.updateMatrix();
         this.middleMesh.updateMatrix();
         this.bottomMesh.updateMatrix();
-        this.teethMesh.updateMatrix();
         this.mouthGeometry.merge(this.upperMesh.geometry,  this.upperMesh.matrix);
         this.mouthGeometry.merge(this.middleMesh.geometry, this.middleMesh.matrix);
         this.mouthGeometry.merge(this.bottomMesh.geometry, this.bottomMesh.matrix);
-        this.mouthGeometry.merge(this.teethMesh.geometry, this.teethMesh.matrix);
 
         this.mouth = new THREE.Mesh(this.mouthGeometry, this.material);
     }
@@ -167,14 +272,44 @@ class Mouth {
 
 
 /***/ }),
-/* 3 */
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Teeth {
+    constructor(hex, ...[h, w, d]) {
+        this.geometry = new THREE.BoxGeometry(h, w, d);
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+    }
+
+    position(x, y, z) {
+        this.cube.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Teeth;
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Body__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Eye__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_Ear__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Horn__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_Leg__ = __webpack_require__(5);
+
+
+
+
+
 
 
 
@@ -187,7 +322,7 @@ function Start() {
 
     renderer = new THREE.WebGLRenderer( {antialias: true} );
     renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setClearColor( '#6acee6' );
     document.body.appendChild( renderer.domElement );
 
     /*---CAMERA---*/
@@ -195,15 +330,17 @@ function Start() {
     camera.lookAt( new THREE.Vector3(0,0,0));
 
     /*---COLOR---*/
+    var white = '#ffffff';
     var bodyColor = '#eae8d6';
     var beje = '#dbd4b7';
+    var brown = '#473c2f';
 
     /*---BODY---*/
     var body = new __WEBPACK_IMPORTED_MODULE_0__model_Body__["a" /* default */](bodyColor , 14, 7, 8);
     body.position(0, 0, 0);
 
     /* ---- HEAD ---*/
-    var head = new __WEBPACK_IMPORTED_MODULE_1__model_Head__["a" /* default */](bodyColor , 5, 9, 8);
+    var head = new __WEBPACK_IMPORTED_MODULE_1__model_Head__["a" /* default */](bodyColor, 5, 9, 8);
     head.position(4.5, 7, 0);
 
     /*---MOUTH---*/
@@ -211,8 +348,66 @@ function Start() {
     mouth.drawMouth();
     mouth.position(10, 8, 0);
 
+    /*---TEETH---*/
+    var teeth = new __WEBPACK_IMPORTED_MODULE_3__model_Teeth__["a" /* default */](white, 1, 1, 4);
+    teeth.position(11, 7.5, 0);
 
-    scene.add( head.cube, body.cube, mouth.mouth);
+    /*---EYES---*/
+    var rightEye = new __WEBPACK_IMPORTED_MODULE_4__model_Eye__["a" /* default */](white, brown, 3, 3, 1);
+    rightEye.position(4.5, 9.5, 4, 0.5);
+    var leftEye = new __WEBPACK_IMPORTED_MODULE_4__model_Eye__["a" /* default */](white, brown, 3, 3, 1);
+    leftEye.position(4.5, 9.5, -4, -0.5);
+
+    /*---EARS---*/
+    var rightEar = new __WEBPACK_IMPORTED_MODULE_5__model_Ear__["a" /* default */](bodyColor, 2, 3, 2);
+    rightEar.position(4.5, 12.5, 3);
+    var leftEar = new __WEBPACK_IMPORTED_MODULE_5__model_Ear__["a" /* default */](bodyColor, 2, 3, 2);
+    leftEar.position(4.5, 12.5, -3);
+
+    /*---HORN---*/
+    var horn = new __WEBPACK_IMPORTED_MODULE_6__model_Horn__["a" /* default */](white, 2, 7, 2);
+    horn.position(5.5, 12.5, 0);
+
+    /*---LEG---*/
+    var front_right = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2); //front_right
+    front_right.position(5.5, -5.5, 3);
+    var front_left = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);  //front_left
+    front_left.position(5.5, -5.5, -3);
+    var back_right = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);  //back_right
+    back_right.position(-5.5, -5.5, 3);
+    var back_left = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);   //back_left
+    back_left.position(-5.5, -5.5, -3);
+
+
+    scene.add(
+        head.cube,
+        body.cube,
+        mouth.mouth,
+        teeth.cube,
+        rightEye.iris,
+        rightEye.pupil,
+        leftEye.iris,
+        leftEye.pupil,
+        rightEar.cube,
+        leftEar.cube,
+        horn.cube,
+
+        front_right.top,
+        front_right.mid,
+        front_right.bot,
+
+        front_left.top,
+        front_left.mid,
+        front_left.bot,
+
+        back_right.top,
+        back_right.mid,
+        back_right.bot,
+
+        back_left.top,
+        back_left.mid,
+        back_left.bot
+    );
 
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
