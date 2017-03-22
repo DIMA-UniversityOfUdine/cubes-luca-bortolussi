@@ -1,7 +1,7 @@
 class Head {
-    constructor(hex, ...dimension) {
-        this.geometry = new THREE.BoxGeometry(dimension);
-        this.material = new THREE.MeshBasicMaterial( { color: "0x" + hex } );
+    constructor(hex, ...[h, w, d]) {
+        this.geometry = new THREE.BoxGeometry(h, w, d);
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
 
