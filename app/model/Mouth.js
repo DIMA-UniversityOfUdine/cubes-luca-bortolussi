@@ -21,17 +21,27 @@ class Mouth {
         this.bottomMesh.position.set(-1, -2, 0);
     }
 
+    drawTeeth() {
+        this.teeth =  new THREE.BoxGeometry(1, 1, 6);
+        this.teethMaterial = new THREE.MeshBasicMaterial( { color: '#fefefd' } );
+        this.teethMesh = new THREE.Mesh(this.teeth, this.teethMaterial);
+        this.teethMesh.position.set(1, -0.5, 0);
+    }
+
     drawMouth() {
         this.drawUpper();
         this.drawMiddle();
         this.drawBottom();
+        this.drawTeeth();
         this.mouthGeometry = new THREE.Geometry();
         this.upperMesh.updateMatrix();
         this.middleMesh.updateMatrix();
         this.bottomMesh.updateMatrix();
+        this.teethMesh.updateMatrix();
         this.mouthGeometry.merge(this.upperMesh.geometry,  this.upperMesh.matrix);
         this.mouthGeometry.merge(this.middleMesh.geometry, this.middleMesh.matrix);
         this.mouthGeometry.merge(this.bottomMesh.geometry, this.bottomMesh.matrix);
+        this.mouthGeometry.merge(this.teethMesh.geometry, this.teethMesh.matrix);
 
         this.mouth = new THREE.Mesh(this.mouthGeometry, this.material);
     }
