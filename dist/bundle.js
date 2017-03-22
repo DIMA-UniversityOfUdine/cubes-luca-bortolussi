@@ -127,11 +127,13 @@ function Start() {
     renderer.setClearColor( 0xf0f0f0 );
     document.body.appendChild( renderer.domElement );
 
-    camera.position.set(0, 5, 10);
+    /*---CAMERA---*/
+    camera.position.set(0, 10, 10);
     camera.lookAt( new THREE.Vector3(0,0,0));
 
     /*---COLOR---*/
-    var bodyColor = '#dbd4b7';
+    var bodyColor = '#eae8d6';
+    var beje = '#dbd4b7';
 
     /* ---- HEAD ---*/
     var head = new __WEBPACK_IMPORTED_MODULE_0__model_Head__["a" /* default */](bodyColor , 5, 9, 8);
