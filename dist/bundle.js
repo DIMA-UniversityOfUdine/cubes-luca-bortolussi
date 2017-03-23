@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -225,6 +225,67 @@ class Leg {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Mane {
+    constructor(hex) {
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.drawBig();
+        this.drawMedium();
+        this.drawSmall();
+        this.drawSmaller();
+        this.drawMane();
+    }
+
+    drawBig() {
+        this.big = new THREE.BoxGeometry(2, 8, 6);
+        this.bigMesh = new THREE.Mesh(this.big);
+        this.bigMesh.position.set(1.5, 0, 0);
+    }
+
+    drawMedium() {
+        this.medium = new THREE.BoxGeometry(2, 3, 6);
+        this.mediumMesh = new THREE.Mesh(this.medium);
+        this.mediumMesh.position.set(-0.5, -2.5, 0);
+    }
+
+    drawSmall() {
+        this.small = new THREE.BoxGeometry(1, 5, 6);
+        this.smallMesh = new THREE.Mesh(this.small);
+        this.smallMesh.position.set(-2, -1.5, 0);
+    }
+
+    drawSmaller() {
+        this.smaller = new THREE.BoxGeometry(1, 1, 6);
+        this.smallerMesh = new THREE.Mesh(this.smaller);
+        this.smallerMesh.position.set(-1, 0.5, 0);
+    }
+
+    drawMane() {
+        this.maneGeometry = new THREE.Geometry();
+        this.bigMesh.updateMatrix();
+        this.mediumMesh.updateMatrix();
+        this.smallMesh.updateMatrix();
+        this.smallerMesh.updateMatrix();
+        this.maneGeometry.merge(this.bigMesh.geometry,  this.bigMesh.matrix);
+        this.maneGeometry.merge(this.mediumMesh.geometry, this.mediumMesh.matrix);
+        this.maneGeometry.merge(this.smallMesh.geometry, this.smallMesh.matrix);
+        this.maneGeometry.merge(this.smallerMesh.geometry, this.smallerMesh.matrix);
+
+        this.mane = new THREE.Mesh(this.maneGeometry, this.material);
+    }
+
+    position(x, y, z) {
+        this.mane.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Mane;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 class Mouth {
     constructor(hex) {
         this.material = new THREE.MeshBasicMaterial( { color: hex } );
@@ -273,7 +334,7 @@ class Mouth {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -293,19 +354,21 @@ class Teeth {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Body__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Eye__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_Ear__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Horn__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_Leg__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_Mane__ = __webpack_require__(6);
+
 
 
 
@@ -346,7 +409,6 @@ function Start() {
 
     /*---MOUTH---*/
     var mouth = new __WEBPACK_IMPORTED_MODULE_2__model_Mouth__["a" /* default */](beje);
-    //mouth.drawMouth();
     mouth.position(10, 8, 0);
 
     /*---TEETH---*/
@@ -379,6 +441,10 @@ function Start() {
     var back_left = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);   //back_left
     back_left.position(-5.5, -5.5, -3);
 
+    /*---MANE---*/
+    var mane = new __WEBPACK_IMPORTED_MODULE_8__model_Mane__["a" /* default */](brown);
+    mane.position(-0.5, 7.5, 0);
+
 
     scene.add(
         head.cube,
@@ -407,7 +473,9 @@ function Start() {
 
         back_left.top,
         back_left.mid,
-        back_left.bot
+        back_left.bot,
+
+        mane.mane
     );
 
     stats = new Stats();

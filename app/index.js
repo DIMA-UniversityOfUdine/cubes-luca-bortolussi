@@ -6,6 +6,7 @@ import Eye from './model/Eye';
 import Ear from './model/Ear';
 import Horn from './model/Horn';
 import Leg from './model/Leg';
+import Mane from './model/Mane';
 
 var scene, camera, renderer, controls, stats;
 
@@ -38,7 +39,6 @@ function Start() {
 
     /*---MOUTH---*/
     var mouth = new Mouth(beje);
-    //mouth.drawMouth();
     mouth.position(10, 8, 0);
 
     /*---TEETH---*/
@@ -71,6 +71,10 @@ function Start() {
     var back_left = new Leg(bodyColor, beje, brown, 2, 4, 2);   //back_left
     back_left.position(-5.5, -5.5, -3);
 
+    /*---MANE---*/
+    var mane = new Mane(brown);
+    mane.position(-0.5, 7.5, 0);
+
 
     scene.add(
         head.cube,
@@ -99,7 +103,9 @@ function Start() {
 
         back_left.top,
         back_left.mid,
-        back_left.bot
+        back_left.bot,
+
+        mane.mane
     );
 
     stats = new Stats();
