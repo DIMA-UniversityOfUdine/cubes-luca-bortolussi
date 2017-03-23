@@ -7,7 +7,7 @@ import Ear from './model/Ear';
 import Horn from './model/Horn';
 import Leg from './model/Leg';
 import Mane from './model/Mane';
-import Tale from './model/Tale';
+import Tail from './model/Tail';
 
 var scene, camera, renderer, controls, stats;
 
@@ -76,9 +76,9 @@ function Start() {
     var mane = new Mane(brown);
     mane.position(-0.5, 7.5, 0);
 
-    /*---TALE---*/
-    var tale = new Tale(brown);
-    tale.position(-9.5, 0.5, 0);
+    /*---tail---*/
+    var tail = new Tail(brown);
+    tail.position(-9.5, 0.5, 0);
 
 
     scene.add(
@@ -111,7 +111,7 @@ function Start() {
         back_left.bot,
 
         mane.mane,
-        tale.tale
+        tail.tail
     );
 
     stats = new Stats();

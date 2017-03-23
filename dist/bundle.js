@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -338,6 +338,67 @@ class Mouth {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Tail {
+    constructor(hex) {
+        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.drawBig();
+        this.drawMedium();
+        this.drawSmall();
+        this.drawSmaller();
+        this.drawtail();
+    }
+
+    drawBig() {
+        this.big = new THREE.BoxGeometry(2, 4, 6);
+        this.bigMesh = new THREE.Mesh(this.big);
+        this.bigMesh.position.set(1.5, 1, 0);
+    }
+
+    drawMedium() {
+        this.medium = new THREE.BoxGeometry(3, 3, 6);
+        this.mediumMesh = new THREE.Mesh(this.medium);
+        this.mediumMesh.position.set(-0.5, -1.5, 0);
+    }
+
+    drawSmall() {
+        this.small = new THREE.BoxGeometry(1, 5, 6);
+        this.smallMesh = new THREE.Mesh(this.small);
+        this.smallMesh.position.set(-2, -0.5, 0);
+    }
+
+    drawSmaller() {
+        this.smaller = new THREE.BoxGeometry(1, 1, 6);
+        this.smallerMesh = new THREE.Mesh(this.smaller);
+        this.smallerMesh.position.set(-1, 1.5, 0);
+    }
+
+    drawtail() {
+        this.tailGeometry = new THREE.Geometry();
+        this.bigMesh.updateMatrix();
+        this.mediumMesh.updateMatrix();
+        this.smallMesh.updateMatrix();
+        this.smallerMesh.updateMatrix();
+        this.tailGeometry.merge(this.bigMesh.geometry,  this.bigMesh.matrix);
+        this.tailGeometry.merge(this.mediumMesh.geometry, this.mediumMesh.matrix);
+        this.tailGeometry.merge(this.smallMesh.geometry, this.smallMesh.matrix);
+        this.tailGeometry.merge(this.smallerMesh.geometry, this.smallerMesh.matrix);
+
+        this.tail = new THREE.Mesh(this.tailGeometry, this.material);
+    }
+
+    position(x, y, z) {
+        this.tail.position.set(x ,y, z);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Tail;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 class Teeth {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
@@ -354,7 +415,7 @@ class Teeth {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -362,12 +423,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Body__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Eye__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_Ear__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Horn__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_Leg__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_Mane__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__model_Tail__ = __webpack_require__(8);
+
 
 
 
@@ -445,6 +508,10 @@ function Start() {
     var mane = new __WEBPACK_IMPORTED_MODULE_8__model_Mane__["a" /* default */](brown);
     mane.position(-0.5, 7.5, 0);
 
+    /*---tail---*/
+    var tail = new __WEBPACK_IMPORTED_MODULE_9__model_Tail__["a" /* default */](brown);
+    tail.position(-9.5, 0.5, 0);
+
 
     scene.add(
         head.cube,
@@ -475,7 +542,8 @@ function Start() {
         back_left.mid,
         back_left.bot,
 
-        mane.mane
+        mane.mane,
+        tail.tail
     );
 
     stats = new Stats();
