@@ -7,6 +7,7 @@ import Ear from './model/Ear';
 import Horn from './model/Horn';
 import Leg from './model/Leg';
 import Mane from './model/Mane';
+import Tale from './model/Tale';
 
 var scene, camera, renderer, controls, stats;
 
@@ -75,6 +76,10 @@ function Start() {
     var mane = new Mane(brown);
     mane.position(-0.5, 7.5, 0);
 
+    /*---TALE---*/
+    var tale = new Tale(brown);
+    tale.position(-9.5, 0.5, 0);
+
 
     scene.add(
         head.cube,
@@ -105,7 +110,8 @@ function Start() {
         back_left.mid,
         back_left.bot,
 
-        mane.mane
+        mane.mane,
+        tale.tale
     );
 
     stats = new Stats();
