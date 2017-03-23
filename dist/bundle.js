@@ -228,6 +228,10 @@ class Leg {
 class Mouth {
     constructor(hex) {
         this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.drawUpper();
+        this.drawMiddle();
+        this.drawBottom();
+        this.drawMouth();
     }
 
     drawUpper() {
@@ -249,9 +253,6 @@ class Mouth {
     }
 
     drawMouth() {
-        this.drawUpper();
-        this.drawMiddle();
-        this.drawBottom();
         this.mouthGeometry = new THREE.Geometry();
         this.upperMesh.updateMatrix();
         this.middleMesh.updateMatrix();
@@ -345,7 +346,7 @@ function Start() {
 
     /*---MOUTH---*/
     var mouth = new __WEBPACK_IMPORTED_MODULE_2__model_Mouth__["a" /* default */](beje);
-    mouth.drawMouth();
+    //mouth.drawMouth();
     mouth.position(10, 8, 0);
 
     /*---TEETH---*/

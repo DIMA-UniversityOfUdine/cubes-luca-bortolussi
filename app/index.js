@@ -38,7 +38,7 @@ function Start() {
 
     /*---MOUTH---*/
     var mouth = new Mouth(beje);
-    mouth.drawMouth();
+    //mouth.drawMouth();
     mouth.position(10, 8, 0);
 
     /*---TEETH---*/
