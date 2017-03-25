@@ -63,11 +63,136 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Head__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Mouth__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Teeth__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Eye__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Ear__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Horn__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Leg__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Mane__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Tail__ = __webpack_require__(9);
+
+
+
+
+
+
+
+
+
+
+
+class Unihorse {
+    constructor() {
+        this.white = '#ffffff';
+        this.bodyColor = '#eae8d6';
+        this.beje = '#dbd4b7';
+        this.brown = '#473c2f';
+        this.unihorse = new THREE.Object3D(); //create an empty container
+        this.create();
+        this.add();
+    }
+
+    create() {
+        /*---BODY---*/
+        this.body = new __WEBPACK_IMPORTED_MODULE_0__Body__["a" /* default */](this.bodyColor , 14, 7, 8);
+        this.body.position(0, 0, 0);
+
+        /* ---- HEAD ---*/
+        this.head = new __WEBPACK_IMPORTED_MODULE_1__Head__["a" /* default */](this.bodyColor, 5, 9, 8);
+        this.head.position(4.5, 7, 0);
+
+        /*---MOUTH---*/
+        this.mouth = new __WEBPACK_IMPORTED_MODULE_2__Mouth__["a" /* default */](this.beje);
+        this.mouth.position(10, 8, 0);
+
+        /*---TEETH---*/
+        this.teeth = new __WEBPACK_IMPORTED_MODULE_3__Teeth__["a" /* default */](this.white, 1, 1, 4);
+        this.teeth.position(11, 7.5, 0);
+
+        /*---EYES---*/
+        this.rightEye = new __WEBPACK_IMPORTED_MODULE_4__Eye__["a" /* default */](this.white, this.brown, 3, 3, 1);
+        this.rightEye.position(4.5, 9.5, 4, 0.5);
+        this.leftEye = new __WEBPACK_IMPORTED_MODULE_4__Eye__["a" /* default */](this.white, this.brown, 3, 3, 1);
+        this.leftEye.position(4.5, 9.5, -4, -0.5);
+
+        /*---EARS---*/
+        this.rightEar = new __WEBPACK_IMPORTED_MODULE_5__Ear__["a" /* default */](this.bodyColor, 2, 3, 2);
+        this.rightEar.position(4.5, 12.5, 3);
+        this.leftEar = new __WEBPACK_IMPORTED_MODULE_5__Ear__["a" /* default */](this.bodyColor, 2, 3, 2);
+        this.leftEar.position(4.5, 12.5, -3);
+
+        /*---HORN---*/
+        this.horn = new __WEBPACK_IMPORTED_MODULE_6__Horn__["a" /* default */](this.white, 2, 7, 2);
+        this.horn.position(5.5, 12.5, 0);
+
+        /*---LEG---*/
+        this.front_right = new __WEBPACK_IMPORTED_MODULE_7__Leg__["a" /* default */](this.bodyColor, this.beje, this.brown, 2, 4, 2); //front_right
+        this.front_right.position(5.5, -5.5, 3);
+        this.front_left = new __WEBPACK_IMPORTED_MODULE_7__Leg__["a" /* default */](this.bodyColor, this.beje, this.brown, 2, 4, 2);  //front_left
+        this.front_left.position(5.5, -5.5, -3);
+        this.back_right = new __WEBPACK_IMPORTED_MODULE_7__Leg__["a" /* default */](this.bodyColor, this.beje, this.brown, 2, 4, 2);  //back_right
+        this.back_right.position(-5.5, -5.5, 3);
+        this.back_left = new __WEBPACK_IMPORTED_MODULE_7__Leg__["a" /* default */](this.bodyColor, this.beje, this.brown, 2, 4, 2);   //back_left
+        this.back_left.position(-5.5, -5.5, -3);
+
+        /*---MANE---*/
+        this.mane = new __WEBPACK_IMPORTED_MODULE_8__Mane__["a" /* default */](this.brown);
+        this.mane.position(-0.5, 7.5, 0);
+
+        /*---tail---*/
+        this.tail = new __WEBPACK_IMPORTED_MODULE_9__Tail__["a" /* default */](this.brown);
+        this.tail.position(-9.5, 0.5, 0);
+        //this.unihorse.add( tail.tail );//add a mesh with geometry to it
+
+
+    }
+
+    add() {
+        this.unihorse.add( this.body.cube );        // BODY
+        this.unihorse.add( this.head.cube );        // HEAD
+        this.unihorse.add( this.mouth.mouth );      // MOUNTH
+        this.unihorse.add( this.teeth.cube );       // TEETH
+        this.unihorse.add( this.rightEye.iris );    // EYE
+        this.unihorse.add( this.rightEye.pupil );
+        this.unihorse.add( this.leftEye.iris );
+        this.unihorse.add( this.leftEye.pupil );
+        this.unihorse.add( this.rightEar.cube );    // EAR
+        this.unihorse.add( this.leftEar.cube );
+        this.unihorse.add( this.horn.cube );        // HORN
+        this.unihorse.add( this.front_right.top );  // LEG
+        this.unihorse.add( this.front_right.mid );
+        this.unihorse.add( this.front_right.bot );
+        this.unihorse.add( this.front_left.top );
+        this.unihorse.add( this.front_left.mid );
+        this.unihorse.add( this.front_left.bot );
+        this.unihorse.add( this.back_right.top );
+        this.unihorse.add( this.back_right.mid );
+        this.unihorse.add( this.back_right.bot );
+        this.unihorse.add( this.back_left.top );
+        this.unihorse.add( this.back_left.mid );
+        this.unihorse.add( this.back_left.bot );
+        this.unihorse.add( this.mane.mane );        // MANE
+        this.unihorse.add( this.tail.tail );        // TAIL
+
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Unihorse;
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -86,7 +211,7 @@ class Body {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -106,7 +231,7 @@ class Ear {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -138,7 +263,7 @@ class Eye {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -158,7 +283,7 @@ class Head {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -178,7 +303,7 @@ class Horn {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -221,7 +346,7 @@ class Leg {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -282,7 +407,7 @@ class Mane {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -334,7 +459,7 @@ class Mouth {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -395,7 +520,7 @@ class Tail {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -415,30 +540,12 @@ class Teeth {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Body__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Head__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_Mouth__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Teeth__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Eye__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_Ear__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Horn__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_Leg__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_Mane__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__model_Tail__ = __webpack_require__(8);
-
-
-
-
-
-
-
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(0);
 
 
 var scene, camera, renderer, controls, stats;
@@ -456,94 +563,9 @@ function Start() {
     camera.position.set(0, 10, 10);
     camera.lookAt( new THREE.Vector3(0,0,0));
 
-    /*---COLOR---*/
-    var white = '#ffffff';
-    var bodyColor = '#eae8d6';
-    var beje = '#dbd4b7';
-    var brown = '#473c2f';
-
-    /*---BODY---*/
-    var body = new __WEBPACK_IMPORTED_MODULE_0__model_Body__["a" /* default */](bodyColor , 14, 7, 8);
-    body.position(0, 0, 0);
-
-    /* ---- HEAD ---*/
-    var head = new __WEBPACK_IMPORTED_MODULE_1__model_Head__["a" /* default */](bodyColor, 5, 9, 8);
-    head.position(4.5, 7, 0);
-
-    /*---MOUTH---*/
-    var mouth = new __WEBPACK_IMPORTED_MODULE_2__model_Mouth__["a" /* default */](beje);
-    mouth.position(10, 8, 0);
-
-    /*---TEETH---*/
-    var teeth = new __WEBPACK_IMPORTED_MODULE_3__model_Teeth__["a" /* default */](white, 1, 1, 4);
-    teeth.position(11, 7.5, 0);
-
-    /*---EYES---*/
-    var rightEye = new __WEBPACK_IMPORTED_MODULE_4__model_Eye__["a" /* default */](white, brown, 3, 3, 1);
-    rightEye.position(4.5, 9.5, 4, 0.5);
-    var leftEye = new __WEBPACK_IMPORTED_MODULE_4__model_Eye__["a" /* default */](white, brown, 3, 3, 1);
-    leftEye.position(4.5, 9.5, -4, -0.5);
-
-    /*---EARS---*/
-    var rightEar = new __WEBPACK_IMPORTED_MODULE_5__model_Ear__["a" /* default */](bodyColor, 2, 3, 2);
-    rightEar.position(4.5, 12.5, 3);
-    var leftEar = new __WEBPACK_IMPORTED_MODULE_5__model_Ear__["a" /* default */](bodyColor, 2, 3, 2);
-    leftEar.position(4.5, 12.5, -3);
-
-    /*---HORN---*/
-    var horn = new __WEBPACK_IMPORTED_MODULE_6__model_Horn__["a" /* default */](white, 2, 7, 2);
-    horn.position(5.5, 12.5, 0);
-
-    /*---LEG---*/
-    var front_right = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2); //front_right
-    front_right.position(5.5, -5.5, 3);
-    var front_left = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);  //front_left
-    front_left.position(5.5, -5.5, -3);
-    var back_right = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);  //back_right
-    back_right.position(-5.5, -5.5, 3);
-    var back_left = new __WEBPACK_IMPORTED_MODULE_7__model_Leg__["a" /* default */](bodyColor, beje, brown, 2, 4, 2);   //back_left
-    back_left.position(-5.5, -5.5, -3);
-
-    /*---MANE---*/
-    var mane = new __WEBPACK_IMPORTED_MODULE_8__model_Mane__["a" /* default */](brown);
-    mane.position(-0.5, 7.5, 0);
-
-    /*---tail---*/
-    var tail = new __WEBPACK_IMPORTED_MODULE_9__model_Tail__["a" /* default */](brown);
-    tail.position(-9.5, 0.5, 0);
-
-
+    var unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
     scene.add(
-        head.cube,
-        body.cube,
-        mouth.mouth,
-        teeth.cube,
-        rightEye.iris,
-        rightEye.pupil,
-        leftEye.iris,
-        leftEye.pupil,
-        rightEar.cube,
-        leftEar.cube,
-        horn.cube,
-
-        front_right.top,
-        front_right.mid,
-        front_right.bot,
-
-        front_left.top,
-        front_left.mid,
-        front_left.bot,
-
-        back_right.top,
-        back_right.mid,
-        back_right.bot,
-
-        back_left.top,
-        back_left.mid,
-        back_left.bot,
-
-        mane.mane,
-        tail.tail
+        unihorse.unihorse
     );
 
     stats = new Stats();
