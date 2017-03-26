@@ -26,4 +26,7 @@ Il modello è stato completato.
 Tutte le parti del corpo dell'unicorno sono state unite all'interno di un unica classe chiamata Unihorse per poterne così facilitare l'utilizzo di animazioni (ancora da creare)
 
 ## 26/03
-E' stato implementato un modello basilare di terreno basato sull'immagine heightmap2.png.
+ - E' stato implementato un modello basilare di terreno basato sull'immagine heightmap2.png.
+ - Aggiunta l'illuminazione e perfezionato il terreno.
+ - Fissata l'inquadratura della telecamera sull'oggetto
+ - Il modello si può muovere nelle quattro direzioni premendo i tasti "W", "A", "S", "D"
