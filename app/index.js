@@ -37,20 +37,17 @@ function Start() {
     /*---TERRAIN---*/
     var img = new Image();
     img.onload = function () {
-    //get height data from img
-    var data = getHeightData(img,0.1);
-    var n = 0;
-    for (var i= 0; i< img.width; i++) {
-        for (var j = 0; j < img.height; j++) {
-            n ++;
-            var terrain = new Terrain(5, data[n], 5);
-            terrain.position(i, j);
-            scene.add( terrain.cube );
+        var data = getHeightData(img,0.1);
+        var n = 0;
+        for (var i= 0; i< img.width; i++) {
+            for (var j = 0; j < img.height; j++) {
+                n ++;
+                var terrain = new Terrain(5, data[n], 5);
+                terrain.position(i, j);
+                scene.add( terrain.cube );
+            }
         }
     }
-
-    }
-    // load img source
     img.src = "./textures/heightmap2.png";
 
     /*---UNIHORSE---*/
@@ -61,6 +58,7 @@ function Start() {
     y = unihorse.unihorse.position.y;
     z = unihorse.unihorse.position.z;
 
+    /*---STATS---*/
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
@@ -70,6 +68,7 @@ function Start() {
     //controls.addEventListener( 'change', Render );
 }
 
+/*---MOVEMENTS---*/
 document.addEventListener("keydown", function (e) {
     switch (e.keyCode) {
         case 87:
@@ -90,6 +89,7 @@ document.addEventListener("keydown", function (e) {
     }
 })
 
+/*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
     //controls.update();
@@ -100,6 +100,7 @@ function Update() {
     Render();
 }
 
+/*---RENDER---*/
 function Render() {
 var time = Date.now() * 0.0005;
     renderer.render(scene, camera);
