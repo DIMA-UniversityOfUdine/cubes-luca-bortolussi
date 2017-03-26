@@ -5,13 +5,13 @@ class Eye {
     }
 
     drawIris(irisrHex, h, w, d) {
-        this.irisMaterial = new THREE.MeshBasicMaterial( { color: irisrHex } );
+        this.irisMaterial = new THREE.MeshPhongMaterial( { color: irisrHex } );
         this.irisGeometry = new THREE.BoxGeometry(h, w, d);
         this.iris = new THREE.Mesh( this.irisGeometry, this.irisMaterial );
     }
 
     drawPupil(pupilHex, h, w, d) {
-        this.pupilMaterial = new THREE.MeshBasicMaterial( { color: pupilHex } );
+        this.pupilMaterial = new THREE.MeshPhongMaterial( { color: pupilHex } );
         this.pupilGeometry = new THREE.BoxGeometry(h-2, w-2, d);
         this.pupil = new THREE.Mesh( this.pupilGeometry, this.pupilMaterial );
     }

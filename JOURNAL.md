@@ -23,4 +23,7 @@ Ho avuto qualche difficoltà nel capire come poter unire più figure geometriche
 Il modello è stato completato.
 
 ## 25/03
-Tutte le parti del corpo dell'unicorno sono state unite all'interno di un unica classe chiamata Unihorse per poterne così facilitare l'utilizzo di animazioni.
+Tutte le parti del corpo dell'unicorno sono state unite all'interno di un unica classe chiamata Unihorse per poterne così facilitare l'utilizzo di animazioni (ancora da creare)
+
+## 26/03
+E' stato implementato un modello basilare di terreno basato sull'immagine heightmap2.png.

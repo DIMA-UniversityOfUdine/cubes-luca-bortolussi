@@ -1,6 +1,6 @@
 class Mouth {
     constructor(hex) {
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.drawUpper();
         this.drawMiddle();
         this.drawBottom();

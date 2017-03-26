@@ -6,21 +6,21 @@ class Leg {
     }
 
     drawTop(topHex, h, w, d) {
-        this.topMaterial = new THREE.MeshBasicMaterial( { color: topHex } );
+        this.topMaterial = new THREE.MeshPhongMaterial( { color: topHex } );
         this.topGeometry = new THREE.BoxGeometry(h, w, d);
         this.top = new THREE.Mesh( this.topGeometry, this.topMaterial );
         this.top.position.set(0, 0, 0);
     }
 
     drawMid(midHex, w) {
-        this.midMaterial = new THREE.MeshBasicMaterial( { color: midHex } );
+        this.midMaterial = new THREE.MeshPhongMaterial( { color: midHex } );
         this.midGeometry = new THREE.BoxGeometry(2, 2, 2);
         this.mid = new THREE.Mesh( this.midGeometry, this.midMaterial );
         this.mid.position.set(0, -w, 0);
     }
 
     drawBot(botHex, w) {
-        this.botMaterial = new THREE.MeshBasicMaterial( { color: botHex } );
+        this.botMaterial = new THREE.MeshPhongMaterial( { color: botHex } );
         this.botGeometry = new THREE.BoxGeometry(2, 2, 2);
         this.bot = new THREE.Mesh( this.botGeometry, this.botMaterial );
         this.mid.position.set(0, -w - 1, 0);

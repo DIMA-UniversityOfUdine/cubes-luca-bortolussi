@@ -1,6 +1,6 @@
 class Tail {
     constructor(hex) {
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.drawBig();
         this.drawMedium();
         this.drawSmall();

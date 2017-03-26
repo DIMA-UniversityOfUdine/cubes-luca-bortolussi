@@ -55,7 +55,7 @@
 		        var all = pix[i]+pix[i+1]+pix[i+2];  // all is in range 0 - 255*3
 		        data[j++] = scale*all/3;
 		    }
-
+			console.log(data);
 		    return data;
 		}
 
@@ -95,9 +95,9 @@
 			//get height data from img
 			var data = getHeightData(img,0.1);
 
+			}
 			// load img source
 			img.src = "textures/heightmap2.png";
-			}
 
 		}
 

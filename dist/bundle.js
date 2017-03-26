@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,16 +71,76 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Head__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Mouth__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Teeth__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Eye__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Ear__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Horn__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Leg__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Mane__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Tail__ = __webpack_require__(9);
+class Terrain {
+    constructor(w, h, d) {
+        this.w = w;
+        this.h = h;
+        this.d = d;
+        this.geometry = new THREE.BoxGeometry(w, h, d);
+        this.material = new THREE.MeshPhongMaterial( { color: '#CD3131' } );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+    }
+    position(x, z) {
+        this.cube.position.set(x * this.w , this.h / 2 , z * this.d);
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Terrain;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function getHeightData(img,scale) {
+
+ if (scale == undefined) scale=1;
+
+    var canvas = document.createElement( 'canvas' );
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var context = canvas.getContext( '2d' );
+
+    var size = img.width * img.height;
+    console.log(size);
+    var data = new Float32Array( size );
+
+    context.drawImage(img,0,0);
+
+    for ( var i = 0; i < size; i ++ ) {
+        data[i] = 0
+    }
+
+    var imgd = context.getImageData(0, 0, img.width, img.height);
+    var pix = imgd.data;
+
+    var j=0;
+    for (var i = 0; i<pix.length; i +=4) {
+        var all = pix[i]+pix[i+1]+pix[i+2];  // all is in range 0 - 255*3
+        data[j++] = scale*all/3;
+    }
+    return data;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = getHeightData;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Head__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Mouth__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Teeth__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Eye__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Ear__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Horn__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Leg__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Mane__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Tail__ = __webpack_require__(11);
 
 
 
@@ -192,14 +252,14 @@ class Unihorse {
 
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Body {
     constructor(hex,...[h, w ,d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
     position(x, y, z) {
@@ -211,14 +271,14 @@ class Body {
 
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Ear {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
 
@@ -231,7 +291,7 @@ class Ear {
 
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -242,13 +302,13 @@ class Eye {
     }
 
     drawIris(irisrHex, h, w, d) {
-        this.irisMaterial = new THREE.MeshBasicMaterial( { color: irisrHex } );
+        this.irisMaterial = new THREE.MeshPhongMaterial( { color: irisrHex } );
         this.irisGeometry = new THREE.BoxGeometry(h, w, d);
         this.iris = new THREE.Mesh( this.irisGeometry, this.irisMaterial );
     }
 
     drawPupil(pupilHex, h, w, d) {
-        this.pupilMaterial = new THREE.MeshBasicMaterial( { color: pupilHex } );
+        this.pupilMaterial = new THREE.MeshPhongMaterial( { color: pupilHex } );
         this.pupilGeometry = new THREE.BoxGeometry(h-2, w-2, d);
         this.pupil = new THREE.Mesh( this.pupilGeometry, this.pupilMaterial );
     }
@@ -263,14 +323,14 @@ class Eye {
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Head {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
 
@@ -283,14 +343,14 @@ class Head {
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Horn {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
 
@@ -303,7 +363,7 @@ class Horn {
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -315,21 +375,21 @@ class Leg {
     }
 
     drawTop(topHex, h, w, d) {
-        this.topMaterial = new THREE.MeshBasicMaterial( { color: topHex } );
+        this.topMaterial = new THREE.MeshPhongMaterial( { color: topHex } );
         this.topGeometry = new THREE.BoxGeometry(h, w, d);
         this.top = new THREE.Mesh( this.topGeometry, this.topMaterial );
         this.top.position.set(0, 0, 0);
     }
 
     drawMid(midHex, w) {
-        this.midMaterial = new THREE.MeshBasicMaterial( { color: midHex } );
+        this.midMaterial = new THREE.MeshPhongMaterial( { color: midHex } );
         this.midGeometry = new THREE.BoxGeometry(2, 2, 2);
         this.mid = new THREE.Mesh( this.midGeometry, this.midMaterial );
         this.mid.position.set(0, -w, 0);
     }
 
     drawBot(botHex, w) {
-        this.botMaterial = new THREE.MeshBasicMaterial( { color: botHex } );
+        this.botMaterial = new THREE.MeshPhongMaterial( { color: botHex } );
         this.botGeometry = new THREE.BoxGeometry(2, 2, 2);
         this.bot = new THREE.Mesh( this.botGeometry, this.botMaterial );
         this.mid.position.set(0, -w - 1, 0);
@@ -346,13 +406,13 @@ class Leg {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Mane {
     constructor(hex) {
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.drawBig();
         this.drawMedium();
         this.drawSmall();
@@ -407,13 +467,13 @@ class Mane {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Mouth {
     constructor(hex) {
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.drawUpper();
         this.drawMiddle();
         this.drawBottom();
@@ -459,13 +519,13 @@ class Mouth {
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Tail {
     constructor(hex) {
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.drawBig();
         this.drawMedium();
         this.drawSmall();
@@ -520,14 +580,14 @@ class Tail {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 class Teeth {
     constructor(hex, ...[h, w, d]) {
         this.geometry = new THREE.BoxGeometry(h, w, d);
-        this.material = new THREE.MeshBasicMaterial( { color: hex } );
+        this.material = new THREE.MeshPhongMaterial( { color: hex } );
         this.cube = new THREE.Mesh( this.geometry, this.material );
     }
 
@@ -540,15 +600,19 @@ class Teeth {
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getHeightData__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Terrain__ = __webpack_require__(0);
 
 
-var scene, camera, renderer, controls, stats;
+
+
+var scene, camera, renderer, controls, stats, x, y, z, unihorse;
 
 function Start() {
     scene = new THREE.Scene();
@@ -559,38 +623,94 @@ function Start() {
     renderer.setClearColor( '#6acee6' );
     document.body.appendChild( renderer.domElement );
 
-    /*---CAMERA---*/
-    camera.position.set(0, 10, 10);
-    camera.lookAt( new THREE.Vector3(0,0,0));
 
-    var unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
-    scene.add(
-        unihorse.unihorse
-    );
+    // LIGHT
+    var light = new THREE.AmbientLight( '#ffffff', 0.6);
+    scene.add( light );
+
+    var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+	hemiLight.color.setHSL( 0.6, 1, 0.6 );
+	hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+	hemiLight.position.set( 0, 500, 0 );
+	scene.add( hemiLight );
+
+    var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
+    var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
+    groundMat.color.setHSL( 0.095, 1, 0.75 );
+    var ground = new THREE.Mesh( groundGeo, groundMat );
+    ground.rotation.x = -Math.PI/2;
+    scene.add( ground );
+    ground.receiveShadow = true;
+
+
+    // terrain
+    var img = new Image();
+    img.onload = function () {
+    //get height data from img
+    var data = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getHeightData__["a" /* default */])(img,0.1);
+    var n = 0;
+    for (var i= 0; i< img.width; i++) {
+        for (var j = 0; j < img.height; j++) {
+            n ++;
+            var terrain = new __WEBPACK_IMPORTED_MODULE_2__Terrain__["a" /* default */](5, data[n], 5);
+            terrain.position(i, j);
+            scene.add( terrain.cube );
+        }
+    }
+
+    }
+    // load img source
+    img.src = "./textures/heightmap2.png";
+
+    /*---UNIHORSE---*/
+    unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
+    unihorse.unihorse.position.set(20, 40, 20);
+    scene.add( unihorse.unihorse );
+    x = unihorse.unihorse.position.x;
+    y = unihorse.unihorse.position.y;
+    z = unihorse.unihorse.position.z;
 
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
     document.body.appendChild( stats.domElement );
 
-    // uncomment if you need to draw coordinate axes when building the scene
-    //Coordinates.drawAllAxes();
-
-    controls = new THREE.OrbitControls( camera );
-    controls.addEventListener( 'change', Render );
-
-
+    //controls = new THREE.OrbitControls( camera );
+    //controls.addEventListener( 'change', Render );
 }
+
+document.addEventListener("keydown", function (e) {
+    switch (e.keyCode) {
+        case 87:
+            x += 5;
+            break;
+        case 83:
+            x -= 5;
+            break;
+        case 65:
+            z -= 5;
+            break;
+        case 68:
+            z += 5;
+            break;
+        default:
+            false;
+
+    }
+})
 
 function Update() {
     requestAnimationFrame( Update );
-    controls.update();
+    //controls.update();
+    unihorse.unihorse.position.set(x, y, z);
+    camera.position.set(x + 40 , y + 20 , z - 30);
+    camera.lookAt( new THREE.Vector3(x , y, z));
     stats.update();
     Render();
 }
 
 function Render() {
-
+var time = Date.now() * 0.0005;
     renderer.render(scene, camera);
 }
 
