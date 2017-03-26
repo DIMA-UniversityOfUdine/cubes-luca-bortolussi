@@ -624,7 +624,7 @@ function Start() {
     document.body.appendChild( renderer.domElement );
 
 
-    // LIGHT
+    /*---LIGHT---*/
     var light = new THREE.AmbientLight( '#ffffff', 0.6);
     scene.add( light );
 
@@ -634,6 +634,7 @@ function Start() {
 	hemiLight.position.set( 0, 500, 0 );
 	scene.add( hemiLight );
 
+    /*---GROUND---*/
     var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
     var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
     groundMat.color.setHSL( 0.095, 1, 0.75 );
@@ -643,23 +644,20 @@ function Start() {
     ground.receiveShadow = true;
 
 
-    // terrain
+    /*---TERRAIN---*/
     var img = new Image();
     img.onload = function () {
-    //get height data from img
-    var data = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getHeightData__["a" /* default */])(img,0.1);
-    var n = 0;
-    for (var i= 0; i< img.width; i++) {
-        for (var j = 0; j < img.height; j++) {
-            n ++;
-            var terrain = new __WEBPACK_IMPORTED_MODULE_2__Terrain__["a" /* default */](5, data[n], 5);
-            terrain.position(i, j);
-            scene.add( terrain.cube );
+        var data = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getHeightData__["a" /* default */])(img,0.1);
+        var n = 0;
+        for (var i= 0; i< img.width; i++) {
+            for (var j = 0; j < img.height; j++) {
+                n ++;
+                var terrain = new __WEBPACK_IMPORTED_MODULE_2__Terrain__["a" /* default */](5, data[n], 5);
+                terrain.position(i, j);
+                scene.add( terrain.cube );
+            }
         }
     }
-
-    }
-    // load img source
     img.src = "./textures/heightmap2.png";
 
     /*---UNIHORSE---*/
@@ -670,6 +668,7 @@ function Start() {
     y = unihorse.unihorse.position.y;
     z = unihorse.unihorse.position.z;
 
+    /*---STATS---*/
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
@@ -679,6 +678,7 @@ function Start() {
     //controls.addEventListener( 'change', Render );
 }
 
+/*---MOVEMENTS---*/
 document.addEventListener("keydown", function (e) {
     switch (e.keyCode) {
         case 87:
@@ -699,6 +699,7 @@ document.addEventListener("keydown", function (e) {
     }
 })
 
+/*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
     //controls.update();
@@ -709,6 +710,7 @@ function Update() {
     Render();
 }
 
+/*---RENDER---*/
 function Render() {
 var time = Date.now() * 0.0005;
     renderer.render(scene, camera);
