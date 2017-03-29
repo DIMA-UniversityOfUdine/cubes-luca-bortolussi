@@ -67,79 +67,68 @@ function Start() {
     console.log(unihorse.unihorse);
 }
 
-/*---MOVEMENTS---*/
-document.addEventListener("keydown", function (e) {
-    switch (e.keyCode) {
-        case 87:
-            x += 5;
-            break;
-        case 83:
-            x -= 5;
-            break;
-        case 65:
-            z -= 5;
-            break;
-        case 68:
-            z += 5;
-            break;
-        default:
-            false;
-
-    }
-})
-
 /*---RIDE AND MOVE---*/
 var up = true;
 var move = false;
 var direction;
+var date;
+
+date = Date.now();
+
 setInterval(function(){
     move = !move;
-    switch (Math.floor((Math.random()* 4 + 1))) {
+    date = Date.now();
+    switch (Math.floor((Math.random()* 3 + 1))) {
         case 1:
-            x += 5;
-            unihorse.unihorse.rotation.y = Math.PI;
+        direction = 'front';
+            //x += 5;
+            //unihorse.unihorse.rotation.y = Math.PI;
             break;
         case 2:
-            x -= 5;
-            unihorse.unihorse.rotation.y = 0;
+            direction = 'left';
+            //z -= 5;
+            //unihorse.unihorse.rotation.y = + Math.PI / 2;
             break;
         case 3:
-            z -= 5;
-            unihorse.unihorse.rotation.y = + Math.PI / 2;
-            break;
-        case 4:
-            z += 5;
-            unihorse.unihorse.rotation.y = - Math.PI / 2;
+            direction = 'right';
+            //z += 5;
+            //unihorse.unihorse.rotation.y = - Math.PI / 2;
             break;
         default:
             false;
     }
 }, 1000);
 
-setInterval(function(){ up = !up; }, 500);
-
+var time = new THREE.Clock();
+time.start();
 /*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
-    unihorse.unihorse.position.set(x, y, z);
     /*---RIDE-ANIMATION---*/
-    if (up) {
-        unihorse.unihorse.rotation.z += Math.PI/200;
-        unihorse.front_right.leg.rotation.z += Math.PI/200;
-        unihorse.front_left.leg.rotation.z += Math.PI/200;
-        unihorse.back_right.leg.position.y -= 0.05;
-        unihorse.back_left.leg.position.y -= 0.05;
-        unihorse.back_right.leg.rotation.z -= Math.PI/300;
-        unihorse.back_left.leg.rotation.z -= Math.PI/300;
-    } else {
-        unihorse.unihorse.rotation.z -= Math.PI/200;
-        unihorse.front_right.leg.rotation.z -= Math.PI/200;
-        unihorse.front_left.leg.rotation.z -= Math.PI/200;
-        unihorse.back_right.leg.position.y += 0.05;
-        unihorse.back_left.leg.position.y += 0.05;
-        unihorse.back_right.leg.rotation.z += Math.PI/300;
-        unihorse.back_left.leg.rotation.z += Math.PI/300;
-    }
+        unihorse.unihorse.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/8;
+        unihorse.front_right.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/6;
+        unihorse.front_left.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/6;
+        unihorse.back_right.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/10;
+        unihorse.back_left.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/10;
+
+        switch (direction) {
+            case 'front':
+                x -= (date - Date.now()) / 1000;
+                break;
+            case 'left':
+                z -= (date - Date.now()) / 1000;
+                unihorse.unihorse.rotation.y += (date - Date.now()) / 1000  / Math.PI / 2;
+                break;
+            case 'right':
+                z += (date - Date.now()) / 1000;
+                unihorse.unihorse.rotation.y -= (date - Date.now()) / 1000  / Math.PI / 2;
+                break;
+            default:
+                false;
+        }
+        console.log(x);
+
+    unihorse.unihorse.position.set(x, y, z);
     /*---MOVEMENTS---*/
     move = false;
     camera.position.set(x + 40 , y + 20 , z - 30);

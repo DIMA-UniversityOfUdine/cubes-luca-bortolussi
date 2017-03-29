@@ -63,181 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getHeightData__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__animation__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Terrain__ = __webpack_require__(1);
-
-
-
-
-
-var scene, camera, renderer, controls, stats, x, y, z, unihorse;
-
-function Start() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-
-    renderer = new THREE.WebGLRenderer( {antialias: true} );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.setClearColor( '#6acee6' );
-    document.body.appendChild( renderer.domElement );
-
-
-    /*---LIGHT---*/
-    var light = new THREE.AmbientLight( '#ffffff', 0.6);
-    scene.add( light );
-
-    var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-	hemiLight.color.setHSL( 0.6, 1, 0.6 );
-	hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-	hemiLight.position.set( 0, 500, 0 );
-	scene.add( hemiLight );
-
-    /*---GROUND---*/
-    var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
-    var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
-    groundMat.color.setHSL( 0.095, 1, 0.75 );
-    var ground = new THREE.Mesh( groundGeo, groundMat );
-    ground.rotation.x = -Math.PI/2;
-    scene.add( ground );
-    ground.receiveShadow = true;
-
-
-    /*---TERRAIN---*/
-    var img = new Image();
-    img.onload = function () {
-        var data = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getHeightData__["a" /* default */])(img,0.1);
-        var n = 0;
-        for (var i= 0; i< img.width; i++) {
-            for (var j = 0; j < img.height; j++) {
-                n ++;
-                var terrain = new __WEBPACK_IMPORTED_MODULE_3__Terrain__["a" /* default */](5, data[n], 5);
-                terrain.position(i - img.width / 2, j - img.height / 2);
-                scene.add( terrain.cube );
-            }
-        }
-    }
-    img.src = "./textures/heightmap2.png";
-
-    /*---UNIHORSE---*/
-    unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
-    unihorse.unihorse.position.set(20, 40, 20);
-    scene.add( unihorse.unihorse );
-    x = unihorse.unihorse.position.x;
-    y = unihorse.unihorse.position.y;
-    z = unihorse.unihorse.position.z;
-
-    /*---STATS---*/
-    stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    document.body.appendChild( stats.domElement );
-    console.log(unihorse.unihorse);
-}
-
-/*---MOVEMENTS---*/
-document.addEventListener("keydown", function (e) {
-    switch (e.keyCode) {
-        case 87:
-            x += 5;
-            break;
-        case 83:
-            x -= 5;
-            break;
-        case 65:
-            z -= 5;
-            break;
-        case 68:
-            z += 5;
-            break;
-        default:
-            false;
-
-    }
-})
-
-/*---RIDE AND MOVE---*/
-var up = true;
-var move = false;
-var direction;
-setInterval(function(){
-    move = !move;
-    switch (Math.floor((Math.random()* 4 + 1))) {
-        case 1:
-            x += 5;
-            unihorse.unihorse.rotation.y = Math.PI;
-            break;
-        case 2:
-            x -= 5;
-            unihorse.unihorse.rotation.y = 0;
-            break;
-        case 3:
-            z -= 5;
-            unihorse.unihorse.rotation.y = + Math.PI / 2;
-            break;
-        case 4:
-            z += 5;
-            unihorse.unihorse.rotation.y = - Math.PI / 2;
-            break;
-        default:
-            false;
-    }
-}, 1000);
-
-setInterval(function(){ up = !up; }, 500);
-
-/*---UPDATE---*/
-function Update() {
-    requestAnimationFrame( Update );
-    unihorse.unihorse.position.set(x, y, z);
-    /*---RIDE-ANIMATION---*/
-    if (up) {
-        unihorse.unihorse.rotation.z += Math.PI/200;
-        unihorse.front_right.leg.rotation.z += Math.PI/200;
-        unihorse.front_left.leg.rotation.z += Math.PI/200;
-        unihorse.back_right.leg.position.y -= 0.05;
-        unihorse.back_left.leg.position.y -= 0.05;
-        unihorse.back_right.leg.rotation.z -= Math.PI/300;
-        unihorse.back_left.leg.rotation.z -= Math.PI/300;
-    } else {
-        unihorse.unihorse.rotation.z -= Math.PI/200;
-        unihorse.front_right.leg.rotation.z -= Math.PI/200;
-        unihorse.front_left.leg.rotation.z -= Math.PI/200;
-        unihorse.back_right.leg.position.y += 0.05;
-        unihorse.back_left.leg.position.y += 0.05;
-        unihorse.back_right.leg.rotation.z += Math.PI/300;
-        unihorse.back_left.leg.rotation.z += Math.PI/300;
-    }
-    /*---MOVEMENTS---*/
-    move = false;
-    camera.position.set(x + 40 , y + 20 , z - 30);
-    camera.lookAt( new THREE.Vector3(x , y, z));
-    stats.update();
-    Render();
-}
-
-/*---RENDER---*/
-function Render() {
-var time = Date.now() * 0.0005;
-    renderer.render(scene, camera);
-}
-
-Start();
-Update();
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -259,7 +89,7 @@ class Terrain {
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -271,7 +101,7 @@ function animation() {
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,14 +139,14 @@ function getHeightData(img,scale) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Leg__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Tail__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Head__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Leg__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Tail__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Head__ = __webpack_require__(8);
 
 
 
@@ -375,7 +205,7 @@ class Unihorse {
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -394,7 +224,7 @@ class Body {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -414,7 +244,7 @@ class Ear {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -446,7 +276,7 @@ class Eye {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -466,17 +296,17 @@ class Face {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Face__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mouth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Teeth__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Eye__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Ear__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Horn__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Mane__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Face__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Mouth__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Teeth__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Eye__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Ear__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Horn__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Mane__ = __webpack_require__(11);
 
 
 
@@ -549,7 +379,7 @@ class Head {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -569,7 +399,7 @@ class Horn {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -620,7 +450,7 @@ class Leg {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -681,7 +511,7 @@ class Mane {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -733,7 +563,7 @@ class Mouth {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -794,7 +624,7 @@ class Tail {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -811,6 +641,165 @@ class Teeth {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = Teeth;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getHeightData__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__animation__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Terrain__ = __webpack_require__(0);
+
+
+
+
+
+var scene, camera, renderer, controls, stats, x, y, z, unihorse;
+
+function Start() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+    renderer = new THREE.WebGLRenderer( {antialias: true} );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setClearColor( '#6acee6' );
+    document.body.appendChild( renderer.domElement );
+
+
+    /*---LIGHT---*/
+    var light = new THREE.AmbientLight( '#ffffff', 0.6);
+    scene.add( light );
+
+    var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+	hemiLight.color.setHSL( 0.6, 1, 0.6 );
+	hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+	hemiLight.position.set( 0, 500, 0 );
+	scene.add( hemiLight );
+
+    /*---GROUND---*/
+    var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
+    var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
+    groundMat.color.setHSL( 0.095, 1, 0.75 );
+    var ground = new THREE.Mesh( groundGeo, groundMat );
+    ground.rotation.x = -Math.PI/2;
+    scene.add( ground );
+    ground.receiveShadow = true;
+
+
+    /*---TERRAIN---*/
+    var img = new Image();
+    img.onload = function () {
+        var data = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getHeightData__["a" /* default */])(img,0.1);
+        var n = 0;
+        for (var i= 0; i< img.width; i++) {
+            for (var j = 0; j < img.height; j++) {
+                n ++;
+                var terrain = new __WEBPACK_IMPORTED_MODULE_3__Terrain__["a" /* default */](5, data[n], 5);
+                terrain.position(i - img.width / 2, j - img.height / 2);
+                scene.add( terrain.cube );
+            }
+        }
+    }
+    img.src = "./textures/heightmap2.png";
+
+    /*---UNIHORSE---*/
+    unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
+    unihorse.unihorse.position.set(20, 40, 20);
+    scene.add( unihorse.unihorse );
+    x = unihorse.unihorse.position.x;
+    y = unihorse.unihorse.position.y;
+    z = unihorse.unihorse.position.z;
+
+    /*---STATS---*/
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    document.body.appendChild( stats.domElement );
+    console.log(unihorse.unihorse);
+}
+
+/*---RIDE AND MOVE---*/
+var up = true;
+var move = false;
+var direction;
+var date;
+
+date = Date.now();
+
+setInterval(function(){
+    move = !move;
+    date = Date.now();
+    switch (Math.floor((Math.random()* 3 + 1))) {
+        case 1:
+        direction = 'front';
+            //x += 5;
+            //unihorse.unihorse.rotation.y = Math.PI;
+            break;
+        case 2:
+            direction = 'left';
+            //z -= 5;
+            //unihorse.unihorse.rotation.y = + Math.PI / 2;
+            break;
+        case 3:
+            direction = 'right';
+            //z += 5;
+            //unihorse.unihorse.rotation.y = - Math.PI / 2;
+            break;
+        default:
+            false;
+    }
+}, 1000);
+
+var time = new THREE.Clock();
+time.start();
+/*---UPDATE---*/
+function Update() {
+    requestAnimationFrame( Update );
+    /*---RIDE-ANIMATION---*/
+        unihorse.unihorse.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/8;
+        unihorse.front_right.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/6;
+        unihorse.front_left.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/6;
+        unihorse.back_right.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/10;
+        unihorse.back_left.leg.rotation.z = Math.sin( time.getElapsedTime() * 4) * Math.PI/10;
+
+        switch (direction) {
+            case 'front':
+                x -= (date - Date.now()) / 1000;
+                break;
+            case 'left':
+                z -= (date - Date.now()) / 1000;
+                unihorse.unihorse.rotation.y += (date - Date.now()) / 1000  / Math.PI / 2;
+                break;
+            case 'right':
+                z += (date - Date.now()) / 1000;
+                unihorse.unihorse.rotation.y -= (date - Date.now()) / 1000  / Math.PI / 2;
+                break;
+            default:
+                false;
+        }
+        console.log(x);
+
+    unihorse.unihorse.position.set(x, y, z);
+    /*---MOVEMENTS---*/
+    move = false;
+    camera.position.set(x + 40 , y + 20 , z - 30);
+    camera.lookAt( new THREE.Vector3(x , y, z));
+    stats.update();
+    Render();
+}
+
+/*---RENDER---*/
+function Render() {
+var time = Date.now() * 0.0005;
+    renderer.render(scene, camera);
+}
+
+Start();
+Update();
 
 
 /***/ })
