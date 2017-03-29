@@ -44,7 +44,7 @@ function Start() {
             for (var j = 0; j < img.height; j++) {
                 n ++;
                 var terrain = new Terrain(5, data[n], 5);
-                terrain.position(i, j);
+                terrain.position(i - img.width / 2, j - img.height / 2);
                 scene.add( terrain.cube );
             }
         }
@@ -64,9 +64,6 @@ function Start() {
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
     document.body.appendChild( stats.domElement );
-
-    //controls = new THREE.OrbitControls( camera );
-    //controls.addEventListener( 'change', Render );
     console.log(unihorse.unihorse);
 }
 
@@ -91,16 +88,41 @@ document.addEventListener("keydown", function (e) {
     }
 })
 
-var up = false;
+/*---RIDE AND MOVE---*/
+var up = true;
+var move = false;
+var direction;
 setInterval(function(){
-    up = !up;
+    move = !move;
+    switch (Math.floor((Math.random()* 4 + 1))) {
+        case 1:
+            x += 5;
+            unihorse.unihorse.rotation.y = Math.PI;
+            break;
+        case 2:
+            x -= 5;
+            unihorse.unihorse.rotation.y = 0;
+            break;
+        case 3:
+            z -= 5;
+            unihorse.unihorse.rotation.y = + Math.PI / 2;
+            break;
+        case 4:
+            z += 5;
+            unihorse.unihorse.rotation.y = - Math.PI / 2;
+            break;
+        default:
+            false;
+    }
 }, 1000);
+
+setInterval(function(){ up = !up; }, 500);
 
 /*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
-    //controls.update();
     unihorse.unihorse.position.set(x, y, z);
+    /*---RIDE-ANIMATION---*/
     if (up) {
         unihorse.unihorse.rotation.z += Math.PI/200;
         unihorse.front_right.leg.rotation.z += Math.PI/200;
@@ -109,9 +131,6 @@ function Update() {
         unihorse.back_left.leg.position.y -= 0.05;
         unihorse.back_right.leg.rotation.z -= Math.PI/300;
         unihorse.back_left.leg.rotation.z -= Math.PI/300;
-        //unihorse.body.cube.rotation.z += Math.PI/200;
-        //unihorse.head.head.rotation.z += Math.PI/200;
-        //unihorse.tail.tail.rotation.z += Math.PI/200;
     } else {
         unihorse.unihorse.rotation.z -= Math.PI/200;
         unihorse.front_right.leg.rotation.z -= Math.PI/200;
@@ -120,10 +139,9 @@ function Update() {
         unihorse.back_left.leg.position.y += 0.05;
         unihorse.back_right.leg.rotation.z += Math.PI/300;
         unihorse.back_left.leg.rotation.z += Math.PI/300;
-        //unihorse.body.cube.rotation.z -= Math.PI/200;
-        //unihorse.head.head.rotation.z -= Math.PI/200;
-        //unihorse.tail.tail.rotation.z -= Math.PI/200;
     }
+    /*---MOVEMENTS---*/
+    move = false;
     camera.position.set(x + 40 , y + 20 , z - 30);
     camera.lookAt( new THREE.Vector3(x , y, z));
     stats.update();
