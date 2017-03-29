@@ -723,39 +723,33 @@ function Start() {
 }
 
 /*---RIDE AND MOVE---*/
-var up = true;
-var move = false;
-var direction;
-var date;
-
-date = Date.now();
+var direction = 'front';
+var prevDirection = 'front';
+var rotation;
+var date = Date.now();
+var time = new THREE.Clock();
+time.start();
 
 setInterval(function(){
-    move = !move;
     date = Date.now();
+    prevDirection = direction;
     switch (Math.floor((Math.random()* 3 + 1))) {
         case 1:
-        direction = 'front';
-            //x += 5;
-            //unihorse.unihorse.rotation.y = Math.PI;
+            direction = 'front';
             break;
         case 2:
             direction = 'left';
-            //z -= 5;
-            //unihorse.unihorse.rotation.y = + Math.PI / 2;
             break;
         case 3:
             direction = 'right';
-            //z += 5;
-            //unihorse.unihorse.rotation.y = - Math.PI / 2;
             break;
         default:
             false;
     }
+    console.log("prev: " + prevDirection);
+    console.log("dir: " + direction);
 }, 1000);
 
-var time = new THREE.Clock();
-time.start();
 /*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
@@ -769,23 +763,52 @@ function Update() {
         switch (direction) {
             case 'front':
                 x -= (date - Date.now()) / 1000;
-                break;
+                switch (prevDirection) {
+                    case 'left':
+                        unihorse.unihorse.rotation.y = Math.PI / 2 - ((Date.now() - date) / 1000) * (Math.PI / 2) ;
+                        break;
+                    case 'right':
+                        unihorse.unihorse.rotation.y = - Math.PI / 2 + ((Date.now() - date) / 1000 ) * (Math.PI / 2);
+                        break;
+                    default:
+                    false;
+                }
+                //unihorse.unihorse.rotation.y = (Date.now() - date) / 1000 * 0;
+            break;
             case 'left':
-                z -= (date - Date.now()) / 1000;
-                unihorse.unihorse.rotation.y += (date - Date.now()) / 1000  / Math.PI / 2;
-                break;
-            case 'right':
                 z += (date - Date.now()) / 1000;
-                unihorse.unihorse.rotation.y -= (date - Date.now()) / 1000  / Math.PI / 2;
-                break;
+                switch (prevDirection) {
+                    case 'front':
+                        unihorse.unihorse.rotation.y = 0 + ((Date.now() - date) / 1000) * (Math.PI / 2) ;
+                        break;
+                    case 'right':
+                        unihorse.unihorse.rotation.y = - Math.PI / 2 + ((Date.now() - date) / 1000 ) * Math.PI;
+                        break;
+                    default:
+                    false;
+                }
+                //unihorse.unihorse.rotation.y += - ((Date.now() - date) / 1000) * (Math.PI / 2) ;
+            break;
+            case 'right':
+                z -= (date - Date.now()) / 1000;
+                switch (prevDirection) {
+                    case 'front':
+                        unihorse.unihorse.rotation.y = 0 - ((Date.now() - date) / 1000) * (Math.PI / 2) ;
+                        break;
+                    case 'left':
+                        unihorse.unihorse.rotation.y = Math.PI / 2 - ((Date.now() - date) / 1000 ) * (Math.PI);
+                        break;
+                    default:
+                    false;
+                }
+                //unihorse.unihorse.rotation.y += ((Date.now() - date) / 1000 ) * (Math.PI / 2);
+            break;
             default:
                 false;
         }
-        console.log(x);
 
     unihorse.unihorse.position.set(x, y, z);
-    /*---MOVEMENTS---*/
-    move = false;
+
     camera.position.set(x + 40 , y + 20 , z - 30);
     camera.lookAt( new THREE.Vector3(x , y, z));
     stats.update();
