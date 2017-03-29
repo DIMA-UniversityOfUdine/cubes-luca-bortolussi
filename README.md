@@ -1,5 +1,5 @@
 # Relazione 1° progetto - Modeling and rendering with cubes
- ![Unihorse 1](/resources/Unihorse 4.png)
+ ![Unihorse 1](/resources/Unihorse4.png)
 
 
 ## Descrizione
@@ -41,7 +41,8 @@ Per la realizzazione del terreno è bastato implementare un doppio ciclo for che
 ## Animazioni
 La realizzazione dell'animazione è stata la parte che ha impiegato maggiore dispendio di energie. Inizialmente prevedeva un'aumento di un fattore *d* ad ogni frame ma questo alla lunga portava a degli squilibri nel calcolo delle rotazioni. E' stato quindi necessario implementare un metodo che tenesse conto del tempo trascorso e che aggiustasse di conseguenza le differenze temporali tra un frame e l'alto.
 L'animazione permette al modello 3D di poter "correre" nel piano di appoggio e scegliere casualmente la direzione di marcia.
-![Unihorse 2](/resources/Unihorse 2.png)
+
+![Unihorse 2](/resources/Unihorse2.png)
 
 
-![Unihorse 2](/resources/Unihorse 3.png)
+![Unihorse 2](/resources/Unihorse3.png)
