@@ -1,5 +1,6 @@
 import Unihorse from './model/Unihorse';
 import getHeightData from './getHeightData';
+import animation from './animation';
 import Terrain from './Terrain';
 
 var scene, camera, renderer, controls, stats, x, y, z, unihorse;
@@ -66,6 +67,7 @@ function Start() {
 
     //controls = new THREE.OrbitControls( camera );
     //controls.addEventListener( 'change', Render );
+    console.log(unihorse.unihorse);
 }
 
 /*---MOVEMENTS---*/
@@ -89,11 +91,39 @@ document.addEventListener("keydown", function (e) {
     }
 })
 
+var up = false;
+setInterval(function(){
+    up = !up;
+}, 1000);
+
 /*---UPDATE---*/
 function Update() {
     requestAnimationFrame( Update );
     //controls.update();
     unihorse.unihorse.position.set(x, y, z);
+    if (up) {
+        unihorse.unihorse.rotation.z += Math.PI/200;
+        unihorse.front_right.leg.rotation.z += Math.PI/200;
+        unihorse.front_left.leg.rotation.z += Math.PI/200;
+        unihorse.back_right.leg.position.y -= 0.05;
+        unihorse.back_left.leg.position.y -= 0.05;
+        unihorse.back_right.leg.rotation.z -= Math.PI/300;
+        unihorse.back_left.leg.rotation.z -= Math.PI/300;
+        //unihorse.body.cube.rotation.z += Math.PI/200;
+        //unihorse.head.head.rotation.z += Math.PI/200;
+        //unihorse.tail.tail.rotation.z += Math.PI/200;
+    } else {
+        unihorse.unihorse.rotation.z -= Math.PI/200;
+        unihorse.front_right.leg.rotation.z -= Math.PI/200;
+        unihorse.front_left.leg.rotation.z -= Math.PI/200;
+        unihorse.back_right.leg.position.y += 0.05;
+        unihorse.back_left.leg.position.y += 0.05;
+        unihorse.back_right.leg.rotation.z += Math.PI/300;
+        unihorse.back_left.leg.rotation.z += Math.PI/300;
+        //unihorse.body.cube.rotation.z -= Math.PI/200;
+        //unihorse.head.head.rotation.z -= Math.PI/200;
+        //unihorse.tail.tail.rotation.z -= Math.PI/200;
+    }
     camera.position.set(x + 40 , y + 20 , z - 30);
     camera.lookAt( new THREE.Vector3(x , y, z));
     stats.update();

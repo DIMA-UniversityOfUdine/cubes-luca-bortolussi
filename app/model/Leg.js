@@ -3,6 +3,7 @@ class Leg {
         this.drawTop(topHex, h, w, d);
         this.drawMid(midHex, w);
         this.drawBot(botHex, w);
+        this.drawLeg();
     }
 
     drawTop(topHex, h, w, d) {
@@ -24,6 +25,13 @@ class Leg {
         this.botGeometry = new THREE.BoxGeometry(2, 2, 2);
         this.bot = new THREE.Mesh( this.botGeometry, this.botMaterial );
         this.mid.position.set(0, -w - 1, 0);
+    }
+
+    drawLeg() {
+        this.leg = new THREE.Group();
+        this.leg.add(this.top);
+        this.leg.add(this.mid);
+        this.leg.add(this.top);
     }
 
     position(x, y, z) {
