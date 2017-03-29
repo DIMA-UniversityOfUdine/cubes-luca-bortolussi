@@ -30,3 +30,6 @@ Tutte le parti del corpo dell'unicorno sono state unite all'interno di un unica 
  - Aggiunta l'illuminazione e perfezionato il terreno.
  - Fissata l'inquadratura della telecamera sull'oggetto
  - Il modello si può muovere nelle quattro direzioni premendo i tasti "W", "A", "S", "D"
+
+##29/03
+Implementata l'animazione della corsa e il file README.md

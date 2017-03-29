@@ -1,6 +1,5 @@
 import Unihorse from './model/Unihorse';
 import getHeightData from './getHeightData';
-import animation from './animation';
 import Terrain from './Terrain';
 
 var scene, camera, renderer, controls, stats, x, y, z, unihorse;
@@ -53,7 +52,7 @@ function Start() {
 
     /*---UNIHORSE---*/
     unihorse = new Unihorse();
-    unihorse.unihorse.position.set(20, 40, 20);
+    unihorse.unihorse.position.set(20, 25, 20);
     scene.add( unihorse.unihorse );
     x = unihorse.unihorse.position.x;
     y = unihorse.unihorse.position.y;
@@ -118,8 +117,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y = (Date.now() - date) / 1000 * 0;
-            break;
+                break;
             case 'left':
                 z += (date - Date.now()) / 1000;
                 switch (prevDirection) {
@@ -132,8 +130,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y += - ((Date.now() - date) / 1000) * (Math.PI / 2) ;
-            break;
+                break;
             case 'right':
                 z -= (date - Date.now()) / 1000;
                 switch (prevDirection) {
@@ -146,8 +143,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y += ((Date.now() - date) / 1000 ) * (Math.PI / 2);
-            break;
+                break;
             default:
                 false;
         }

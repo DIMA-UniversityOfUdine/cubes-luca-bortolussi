@@ -89,18 +89,7 @@ class Terrain {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-function animation() {
-    var up = false;
-}
-
-/* unused harmony default export */ var _unused_webpack_default_export = animation;
-
-
-/***/ }),
+/* 1 */,
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -651,9 +640,7 @@ class Teeth {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getHeightData__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__animation__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Terrain__ = __webpack_require__(0);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Terrain__ = __webpack_require__(0);
 
 
 
@@ -698,7 +685,7 @@ function Start() {
         for (var i= 0; i< img.width; i++) {
             for (var j = 0; j < img.height; j++) {
                 n ++;
-                var terrain = new __WEBPACK_IMPORTED_MODULE_3__Terrain__["a" /* default */](5, data[n], 5);
+                var terrain = new __WEBPACK_IMPORTED_MODULE_2__Terrain__["a" /* default */](5, data[n], 5);
                 terrain.position(i - img.width / 2, j - img.height / 2);
                 scene.add( terrain.cube );
             }
@@ -708,7 +695,7 @@ function Start() {
 
     /*---UNIHORSE---*/
     unihorse = new __WEBPACK_IMPORTED_MODULE_0__model_Unihorse__["a" /* default */]();
-    unihorse.unihorse.position.set(20, 40, 20);
+    unihorse.unihorse.position.set(20, 25, 20);
     scene.add( unihorse.unihorse );
     x = unihorse.unihorse.position.x;
     y = unihorse.unihorse.position.y;
@@ -773,8 +760,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y = (Date.now() - date) / 1000 * 0;
-            break;
+                break;
             case 'left':
                 z += (date - Date.now()) / 1000;
                 switch (prevDirection) {
@@ -787,8 +773,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y += - ((Date.now() - date) / 1000) * (Math.PI / 2) ;
-            break;
+                break;
             case 'right':
                 z -= (date - Date.now()) / 1000;
                 switch (prevDirection) {
@@ -801,8 +786,7 @@ function Update() {
                     default:
                     false;
                 }
-                //unihorse.unihorse.rotation.y += ((Date.now() - date) / 1000 ) * (Math.PI / 2);
-            break;
+                break;
             default:
                 false;
         }
